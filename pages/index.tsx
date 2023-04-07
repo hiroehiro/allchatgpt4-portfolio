@@ -46,7 +46,7 @@ const Home = () => {
                   maxHeight: "200px",
                 }}
                 alt="山田太郎"
-                src="/profile.jpg"
+                src="/profile.png"
               />
             </Grid>
             <Grid item xs={12} sm={8} md={9}>
@@ -96,27 +96,31 @@ const Home = () => {
           <Grid container spacing={2}>
             {/* スキルの一覧を表示 */}
             {[
-              "Next.js",
-              "TypeScript",
-              "React",
-              "Redux",
-              "JavaScript",
-              "HTML",
-              "CSS",
-              "Firebase",
-              "MongoDB",
-              "Git",
-              "Webpack",
+              { name: "Next.js", rating: 4 },
+              { name: "TypeScript", rating: 5 },
+              { name: "React", rating: 4 },
+              { name: "Redux", rating: 3 },
+              { name: "JavaScript", rating: 5 },
+              { name: "HTML", rating: 5 },
+              { name: "CSS", rating: 4 },
+              { name: "Firebase", rating: 3 },
+              { name: "MongoDB", rating: 2 },
+              { name: "Git", rating: 4 },
+              { name: "Webpack", rating: 3 },
             ].map((skill) => (
-              <Grid item key={skill}>
-                <Chip label={skill} />
+              <Grid item xs={12} sm={6} md={4} key={skill.name}>
+                <Box display="flex" alignItems="center">
+                  <Chip label={skill.name} />
+                  <Box ml={2}>
+                    <Rating value={skill.rating} readOnly />
+                  </Box>
+                </Box>
               </Grid>
             ))}
           </Grid>
         </Box>
 
-        <Divider />
-
+        {/* 以下のセクションも同様にデザインを調整していきます。 */}
         {/* 3. 実績・プロジェクト */}
         <Box my={4}>
           <Typography variant="h4" component="h2" gutterBottom>
@@ -128,17 +132,14 @@ const Home = () => {
               {
                 title: "プロジェクト1",
                 description: "プロジェクト1の説明です。",
-                rating: 4,
               },
               {
                 title: "プロジェクト2",
                 description: "プロジェクト2の説明です。",
-                rating: 5,
               },
               {
                 title: "プロジェクト3",
                 description: "プロジェクト3の説明です。",
-                rating: 3,
               },
             ].map((project) => (
               <Grid item xs={12} sm={6} md={4} key={project.title}>
@@ -146,9 +147,6 @@ const Home = () => {
                   <CardHeader title={project.title} />
                   <CardContent>
                     <Typography>{project.description}</Typography>
-                    <Box mt={2}>
-                      <Rating value={project.rating} readOnly />
-                    </Box>
                   </CardContent>
                 </Card>
               </Grid>
