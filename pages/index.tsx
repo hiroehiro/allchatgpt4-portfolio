@@ -15,6 +15,16 @@ import {
 } from "@mui/material";
 import { GitHub, LinkedIn, Twitter } from "@mui/icons-material";
 import { Rating } from "@mui/lab";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  ListItemAvatar,
+  ListItemSecondaryAction,
+  TextField,
+  Button,
+} from "@mui/material";
+import { VerifiedUser, EmojiEvents } from "@mui/icons-material";
 
 const Home = () => {
   return (
@@ -144,6 +154,64 @@ const Home = () => {
               </Grid>
             ))}
           </Grid>
+        </Box>
+
+        {/* 5. 資格・認定 */}
+        <Box my={4}>
+          <Typography variant="h4" component="h2" gutterBottom>
+            資格・認定
+          </Typography>
+          <List>
+            {[
+              {
+                name: "AWS認定ソリューションアーキテクト – アソシエイト",
+                date: "2022年1月",
+              },
+              {
+                name: "Google Cloud Professional Cloud Architect",
+                date: "2022年6月",
+              },
+            ].map((certification) => (
+              <ListItem key={certification.name}>
+                <ListItemAvatar>
+                  <Avatar>
+                    <VerifiedUser />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  primary={certification.name}
+                  secondary={certification.date}
+                />
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+
+        <Divider />
+
+        {/* 6. 受賞歴・実績 */}
+        <Box my={4}>
+          <Typography variant="h4" component="h2" gutterBottom>
+            受賞歴・実績
+          </Typography>
+          <List>
+            {[
+              { name: "第1回プログラミングコンテスト 優勝", date: "2021年4月" },
+              {
+                name: "第2回プログラミングコンテスト 準優勝",
+                date: "2021年10月",
+              },
+            ].map((award) => (
+              <ListItem key={award.name}>
+                <ListItemAvatar>
+                  <Avatar>
+                    <EmojiEvents />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={award.name} secondary={award.date} />
+              </ListItem>
+            ))}
+          </List>
         </Box>
 
         {/* 以下のセクションも同様にデザインを調整していきます。 */}
