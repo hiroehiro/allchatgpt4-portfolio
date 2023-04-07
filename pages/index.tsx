@@ -25,6 +25,15 @@ import {
   Button,
 } from "@mui/material";
 import { VerifiedUser, EmojiEvents } from "@mui/icons-material";
+import {
+  Timeline,
+  TimelineItem,
+  TimelineSeparator,
+  TimelineConnector,
+  TimelineContent,
+  TimelineDot,
+  TimelineOppositeContent,
+} from "@mui/lab";
 
 const Home = () => {
   return (
@@ -212,15 +221,61 @@ const Home = () => {
           </List>
         </Box>
 
-        {/* 以下のセクションも同様にデザインを調整していきます。 */}
-        {/* 4. コードサンプル */}
-        {/* 5. 資格・認定 */}
-        {/* 6. 受賞歴・実績 */}
-        {/* 7. ブログ・記事 */}
-        {/* 8. 連絡先 */}
-        {/* 9. デザイン・ユーザビリティ */}
-        {/* 10. テスト・品質 */}
-        {/* 11. ソフトスキル */}
+        {/* タイムラインセクション */}
+        <Box my={4}>
+          <Typography variant="h4" component="h2" gutterBottom>
+            タイムライン
+          </Typography>
+          <Timeline position="alternate">
+            {/* タイムラインの項目を作成 */}
+            {[
+              {
+                date: "1995年",
+                title: "生まれ",
+                content: "東京都で生まれる。",
+              },
+              {
+                date: "2013年",
+                title: "プログラミング開始",
+                content: "高校でプログラミングを始める。",
+              },
+              {
+                date: "2017年",
+                title: "大学入学",
+                content: "東京の大学に入学し、コンピュータサイエンスを学ぶ。",
+              },
+              {
+                date: "2021年",
+                title: "資格取得",
+                content:
+                  "AWS認定ソリューションアーキテクト – アソシエイトを取得。",
+              },
+              {
+                date: "2022年",
+                title: "実績",
+                content: "第1回プログラミングコンテストで優勝。",
+              },
+            ].map((event) => (
+              <TimelineItem key={event.title}>
+                <TimelineOppositeContent>
+                  <Typography variant="body2" color="text.secondary">
+                    {event.date}
+                  </Typography>
+                </TimelineOppositeContent>
+                <TimelineSeparator>
+                  <TimelineDot />
+                  <TimelineConnector />
+                </TimelineSeparator>
+                <TimelineContent>
+                  <Typography variant="h6" component="h3">
+                    {event.title}
+                  </Typography>
+                  <Typography>{event.content}</Typography>
+                </TimelineContent>
+              </TimelineItem>
+            ))}
+          </Timeline>
+        </Box>
       </Container>
     </div>
   );
