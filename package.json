@@ -13,9 +13,12 @@
     "@mui/lab": "^5.0.0-alpha.125",
     "@mui/material": "^5.11.16",
     "@mui/system": "^5.11.16",
+    "@react-spring/web": "^9.7.2",
     "next": "latest",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-intersection-observer": "^9.4.3",
+    "react-scroll-trigger": "^0.6.14"
   },
   "devDependencies": {
     "@types/node": "^12.12.21",

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import {
   Box,
@@ -12,6 +12,9 @@ import {
   Card,
   CardHeader,
   CardContent,
+  CardActionArea,
+  CardMedia,
+  CardActions,
 } from "@mui/material";
 import { GitHub, LinkedIn, Twitter } from "@mui/icons-material";
 import { Rating } from "@mui/lab";
@@ -34,15 +37,56 @@ import {
   TimelineDot,
   TimelineOppositeContent,
 } from "@mui/lab";
+import { useInView } from "react-intersection-observer";
+import { animated, useSpring } from "@react-spring/web";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  // Button,
+} from "@mui/material";
+
+// タイムライン項目のアニメーションを担当するコンポーネント
+const AnimatedTimelineItem = ({ children, delay = 0 }) => {
+  const [ref, inView] = useInView({
+    threshold: 0.3,
+    triggerOnce: true,
+  });
+
+  const props = useSpring({
+    opacity: inView ? 1 : 0,
+    transform: inView ? "translateX(0)" : "translateX(100px)",
+    delay: delay,
+  });
+
+  return (
+    <animated.div ref={ref} style={props}>
+      {children}
+    </animated.div>
+  );
+};
 
 const Home = () => {
+  // ダイアログの状態を管理するuseStateフック
+  const [dialog, setDialog] = useState({ open: false, title: "", content: "" });
+
+  // ダイアログを開く関数
+  const handleClickOpen = (title, content) => {
+    setDialog({ open: true, title, content });
+  };
+
+  // ダイアログを閉じる関数
+  const handleClose = () => {
+    setDialog({ ...dialog, open: false });
+  };
   return (
     <div>
       <Head>
         <title>山田太郎のポートフォリオ</title>
         <meta name="description" content="山田太郎のポートフォリオサイトです" />
       </Head>
-
       <Box bgcolor="primary.main" color="primary.contrastText" py={6}>
         <Container maxWidth="md">
           <Grid container alignItems="center">
@@ -95,7 +139,6 @@ const Home = () => {
           </Grid>
         </Container>
       </Box>
-
       <Container maxWidth="md">
         {/* 2. スキルセット */}
         <Box my={4}>
@@ -137,7 +180,7 @@ const Home = () => {
           </Typography>
           <Grid container spacing={4}>
             {/* プロジェクトのカードを表示 */}
-            {[
+            {/* {[
               {
                 title: "プロジェクト1",
                 description: "プロジェクト1の説明です。",
@@ -157,6 +200,75 @@ const Home = () => {
                   <CardContent>
                     <Typography>{project.description}</Typography>
                   </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid> */}
+            {[
+              {
+                title: "プロジェクト1",
+                description: "プロジェクト1の説明です。",
+                imageUrl: "openai.jpg",
+                shortDescription: "aaa",
+                githubUrl: "https://github.com/hiroehiro/allchatgpt4-portfolio",
+              },
+              {
+                title: "プロジェクト2",
+                description: "プロジェクト2の説明です。",
+                imageUrl: "pexels.jpg",
+                shortDescription: "bbb",
+                githubUrl: "https://github.com/hiroehiro/allchatgpt4-portfolio",
+              },
+              {
+                title: "プロジェクト3",
+                description: "プロジェクト3の説明です。",
+                imageUrl: "code.jpg",
+                shortDescription: "ccc",
+                githubUrl: "https://github.com/hiroehiro/allchatgpt4-portfolio",
+              },
+            ].map((project) => (
+              <Grid item xs={12} sm={6} md={4} key={project.title}>
+                <Card
+                  sx={{
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <CardActionArea
+                    onClick={() =>
+                      handleClickOpen(project.title, project.description)
+                    }
+                  >
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image={project.imageUrl}
+                      alt={project.title}
+                    />
+                    <CardContent sx={{ flexGrow: 1 }}>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {project.title}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        component="p"
+                      >
+                        {project.shortDescription}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                  <CardActions>
+                    <IconButton
+                      color="secondary"
+                      href="https://github.com/username"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <GitHub />
+                    </IconButton>
+                  </CardActions>
                 </Card>
               </Grid>
             ))}
@@ -255,28 +367,43 @@ const Home = () => {
                 title: "実績",
                 content: "第1回プログラミングコンテストで優勝。",
               },
-            ].map((event) => (
-              <TimelineItem key={event.title}>
-                <TimelineOppositeContent>
-                  <Typography variant="body2" color="text.secondary">
-                    {event.date}
-                  </Typography>
-                </TimelineOppositeContent>
-                <TimelineSeparator>
-                  <TimelineDot />
-                  <TimelineConnector />
-                </TimelineSeparator>
-                <TimelineContent>
-                  <Typography variant="h6" component="h3">
-                    {event.title}
-                  </Typography>
-                  <Typography>{event.content}</Typography>
-                </TimelineContent>
-              </TimelineItem>
+            ].map((event, index) => (
+              <AnimatedTimelineItem key={event.title} delay={index * 100}>
+                <TimelineItem>
+                  <TimelineOppositeContent>
+                    <Typography variant="body2" color="text.secondary">
+                      {event.date}
+                    </Typography>
+                  </TimelineOppositeContent>
+                  <TimelineSeparator>
+                    <TimelineDot />
+                    <TimelineConnector />
+                  </TimelineSeparator>
+                  <TimelineContent>
+                    <Typography variant="h6" component="h3">
+                      {event.title}
+                    </Typography>
+                    <Typography>{event.content}</Typography>
+                  </TimelineContent>
+                </TimelineItem>
+              </AnimatedTimelineItem>
             ))}
           </Timeline>
         </Box>
       </Container>
+      {/* // Homeコンポーネントの最後にダイアログコンポーネントを追加 */}
+      <Dialog open={dialog.open} onClose={handleClose}>
+        <DialogTitle>{dialog.title}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{dialog.content}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            閉じる
+          </Button>
+        </DialogActions>
+      </Dialog>
+      ;
     </div>
   );
 };
